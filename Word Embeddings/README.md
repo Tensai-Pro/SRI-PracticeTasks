@@ -1,1 +1,30 @@
+# Word Embeddings
+Используемый датасет: AG News Classification Dataset (120.000 экземпляров, 4 категории)
 
+https://www.kaggle.com/datasets/amananandrai/ag-news-classification-dataset
+
+Обучающая выборка: 90.000, тренировочная выборка: 30.000.
+
+## Предварительная обработка текста
+```python
+def prepare_text(text):
+  tokens = simple_preprocess(text)
+  stemmer = SnowballStemmer('english', ignore_stopwords=True)
+  tokens = [stemmer.stem(tok) for tok in tokens if tok not in stopwords]
+  return tokens
+```
+Для английского языка проще использовать стеммер. 
+
+Для некоторых алгоритмов векторизации этот этап вообще не нужен; в таких случаях стемминг был убран из функции.
+
+Для некоторых моделей для удобства возвращается не массив токенов, а целая строка: `' '.join(tokens)`
+
+Предобработка текста используется не для всех моделей word embedding.
+
+## Классификация
+В рамках задачи использовались стандартные классические алгоритмы мультиклассовой классификации: **Multinomial Naive Bayes**, **K-Nearest Neighbors** и **Support Vector Classification**.
+
+## Bag of Words
+- Для создания матрицы обычной частотности терминов (BoW) использовался `CountVectorizer()` с ограниченным отсортированным словарём.
+
+## Word2Vec
